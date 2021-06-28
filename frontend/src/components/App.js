@@ -51,6 +51,7 @@ function App() {
                     }
                     const email = res.data.email
                     setUserInfo({email})
+
                 }).catch((err) => {
                     console.log('Ошибка при проверки токена', err)
                 })
@@ -61,10 +62,11 @@ function App() {
     const history = useHistory()
 
     function handleSignIn(loginData) {
-        return auth.authorize(loginData).then((res) => {
+        auth.authorize(loginData).then((res) => {
             setIsLoggedIn(true)
             history.push('/')
             localStorage.setItem('jwt', res.token);
+            console.log(localStorage)
             setUserInfo({
                 email: loginData.email
             })
