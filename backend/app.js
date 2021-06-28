@@ -50,6 +50,10 @@ const settingCors = {
     'http://api.khrompus.nomoredomains.club',
     'http://api.khrompus.nomoredomains.club/users/me',
     'http://khrompus.nomoredomains.monster',
+    'https://localhost:3000',
+    'https://api.khrompus.nomoredomains.club',
+    'https://api.khrompus.nomoredomains.club/users/me',
+    'https://khrompus.nomoredomains.monster',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
@@ -60,6 +64,11 @@ const settingCors = {
 app.use('*', cors(settingCors));
 app.use(cookieParser());
 app.use(requestLogger);
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post('/signin', validateSignIn, login);
 app.post('/signup', validateUserSignUp, createUser);
 app.use(Auth);
@@ -81,5 +90,5 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`App listening on port ${PORT}`);
+  console.log('Сервер запущен');
 });
