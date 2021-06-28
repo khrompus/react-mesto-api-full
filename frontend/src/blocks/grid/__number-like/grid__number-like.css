@@ -1,0 +1,11 @@
+.grid__number-like{
+    color: black;
+    padding: 0;
+    align-self: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    margin-top: 3px;
+    margin-bottom: 0;
+}
