@@ -54,6 +54,7 @@ const settingCors = {
     'https://api.khrompus.nomoredomains.club',
     'https://api.khrompus.nomoredomains.club/users/me',
     'https://khrompus.nomoredomains.monster',
+    'https://api.khrompus.nomoredomains.club/cards',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
