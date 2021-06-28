@@ -2,6 +2,7 @@ const express = require('express');
 // eslint-disable-next-line import/no-unresolved
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
+const path = require('path');
 // eslint-disable-next-line import/no-unresolved
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
@@ -44,6 +45,8 @@ const validateSignIn = celebrate({
   }),
 });
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'build')));
+
 app.use(requestLogger);
 app.post('/signin', validateSignIn, login);
 app.post('/signup', validateUserSignUp, createUser);
