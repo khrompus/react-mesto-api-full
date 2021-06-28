@@ -1,0 +1,13 @@
+.popup__status-title {
+    margin-top: 32px;
+    margin-bottom: 60px;
+    align-self: center;
+    font-family: Inter, 'sans-serif';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    max-width: 358px;
+    color: #000000;
+}
