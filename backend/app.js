@@ -1,7 +1,7 @@
 const express = require('express');
 // eslint-disable-next-line import/no-unresolved
 const { celebrate, Joi } = require('celebrate');
-const cors = require('cors');
+// const cors = require('cors');
 const { errors } = require('celebrate');
 // eslint-disable-next-line import/no-unresolved
 const cookieParser = require('cookie-parser');
@@ -44,25 +44,25 @@ const validateSignIn = celebrate({
     password: Joi.string().required().min(8),
   }),
 });
-const settingCors = {
-  origin: [
-    'http://localhost:3000',
-    'http://api.khrompus.nomoredomains.club',
-    'http://api.khrompus.nomoredomains.club/users/me',
-    'http://khrompus.nomoredomains.monster',
-    'https://localhost:3000',
-    'https://api.khrompus.nomoredomains.club',
-    'https://api.khrompus.nomoredomains.club/users/me',
-    'https://khrompus.nomoredomains.monster',
-    'https://api.khrompus.nomoredomains.club/cards',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
-app.use('*', cors(settingCors));
+// const settingCors = {
+//   origin: [
+//     'http://localhost:3000',
+//     'http://api.khrompus.nomoredomains.club',
+//     'http://api.khrompus.nomoredomains.club/users/me',
+//     'http://khrompus.nomoredomains.monster',
+//     'https://localhost:3000',
+//     'https://api.khrompus.nomoredomains.club',
+//     'https://api.khrompus.nomoredomains.club/users/me',
+//     'https://khrompus.nomoredomains.monster',
+//     'https://api.khrompus.nomoredomains.club/cards',
+//   ],
+//   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 204,
+//   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+//   credentials: true,
+// };
+// app.use('*', cors(settingCors));
 app.use(cookieParser());
 app.use(requestLogger);
 app.get('/crash-test', () => {
