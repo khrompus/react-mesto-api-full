@@ -15,7 +15,25 @@ const { requestLogger, errorLogger } = require('./middlewares/Logger');
 
 const { PORT = 3001 } = process.env;
 const app = express();
-
+const settingCors = {
+  origin: [
+    'http://localhost:3000',
+    'http://api.khrompus.nomoredomains.club',
+    'http://api.khrompus.nomoredomains.club/users/me',
+    'http://khrompus.nomoredomains.monster',
+    'https://localhost:3000',
+    'https://api.khrompus.nomoredomains.club',
+    'https://api.khrompus.nomoredomains.club/users/me',
+    'https://khrompus.nomoredomains.monster',
+    'https://api.khrompus.nomoredomains.club/cards',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
+};
+app.use('*', cors(settingCors));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // подключение бд к проетку
@@ -44,25 +62,7 @@ const validateSignIn = celebrate({
     password: Joi.string().required().min(8),
   }),
 });
-const settingCors = {
-  origin: [
-    'http://localhost:3000',
-    'http://api.khrompus.nomoredomains.club',
-    'http://api.khrompus.nomoredomains.club/users/me',
-    'http://khrompus.nomoredomains.monster',
-    'https://localhost:3000',
-    'https://api.khrompus.nomoredomains.club',
-    'https://api.khrompus.nomoredomains.club/users/me',
-    'https://khrompus.nomoredomains.monster',
-    'https://api.khrompus.nomoredomains.club/cards',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
-app.use('*', cors(settingCors));
+
 app.use(cookieParser());
 app.use(requestLogger);
 app.get('/crash-test', () => {
