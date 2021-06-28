@@ -1,6 +1,7 @@
 const express = require('express');
 // eslint-disable-next-line import/no-unresolved
 const { celebrate, Joi } = require('celebrate');
+const path = require('path');
 const { errors } = require('celebrate');
 // eslint-disable-next-line import/no-unresolved
 const cookieParser = require('cookie-parser');
@@ -55,6 +56,7 @@ app.use((req, res) => {
   res.status(404).send({ message: 'Такой страницы не существует' });
 });
 app.use(errorLogger);
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;

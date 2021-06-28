@@ -14,7 +14,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "deploy": "npm run build && scp -r ./build/* khrompus@217.28.229.179:/home/khrompus/",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
