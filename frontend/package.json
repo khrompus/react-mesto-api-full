@@ -14,7 +14,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "deploy": "npm run build && scp -r ./build/* praktikum@84.201.172.240:/home/praktikum/mesto-frontend",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
