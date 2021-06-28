@@ -33,7 +33,7 @@ const settingCors = {
   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
 };
-app.use('*', cors(settingCors));
+app.use('*', cors({ settingCors }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // подключение бд к проетку
