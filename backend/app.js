@@ -15,7 +15,8 @@ const Auth = require('./middlewares/Auth');
 const { createUser, login } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/Logger');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
+// const { PORT = 3001 } = process.env; /dev
 const app = express();
 // подключение бд к проетку
 

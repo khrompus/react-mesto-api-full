@@ -104,7 +104,7 @@ class Api {
     }
 }
 const api = new Api({
-    // baseUrl: 'https://api.khrompus.nomoredomains.club',
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://api.khrompus.nomoredomains.club',
+    // baseUrl: 'http://localhost:3001', // dev
 })
 export default api
