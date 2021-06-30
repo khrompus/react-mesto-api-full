@@ -71,6 +71,7 @@ function App() {
         }).catch((err) => {
             console.log('Произошла ошибка при авторизации', err)
         })
+        // eslint-disable-next-line no-unreachable
     }
 
     function handleRegister(data) {
@@ -142,7 +143,7 @@ function App() {
             .catch(err => {
                 console.log('Ошибка при получении данных', err)
             })
-    })
+    }, [])
     useEffect(() => {
         api.getCards()
             .then((res) => {
@@ -171,6 +172,14 @@ function App() {
         }).catch((err) => {
             console.log('Ошибка при загрузки данных', err)
         })
+        api.getUser()
+            .then((res) => {
+                setCurrentUser(res)
+
+            })
+            .catch(err => {
+                console.log('Ошибка при получении данных', err)
+            })
     }
 
     function handleAddPlaceSubmit(cardData) {
