@@ -1,4 +1,6 @@
-export const BASE_URL = 'https://api.khrompus.nomoredomains.club'
+// export const BASE_URL = 'https://api.khrompus.nomoredomains.club'
+
+export const BASE_URL = 'http://localhost:3001'
 
 function parseResponse(res) {
     if (res.ok) {
@@ -29,21 +31,23 @@ export const authorize = (data) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            password: data.password,
-            email: data.email
+            email: data.email,
+            password: data.password
         })
     }).then(res => parseResponse(res))
 
 }
 export const getContent = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        }
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        credentials: "include",
     })
         .then(res => parseResponse(res))
-        .then(data => data)
-}
+        .then((data) => data);
+};
 

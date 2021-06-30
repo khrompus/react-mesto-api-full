@@ -18,10 +18,15 @@ const validateUpdateProfile = celebrate({
     about: Joi.string().required().min(2).max(30),
   }),
 });
+const validateId = celebrate({
+  params: Joi.object().keys({
+    id: Joi.string().required().length(24).hex(),
+  }),
+});
 
 router.get('/users/me', getUser);
 router.get('/users', getUsers);
-router.get('/users/:userId', celebrate({
+router.get('/users/:userId', validateId, celebrate({
   params: Joi.object().keys({
     id: Joi.string().required().length(24).hex(),
   }),

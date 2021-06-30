@@ -28,7 +28,12 @@ function Main(props) {
                 </div>
             </section>
             <section className="grid">
-                {props.cards.map(card => (<Card key={card._id} onDeleteCard={props.onDeleteCard} onCardLike={props.onCardLike} onCardClick={props.onCardClick} card={card}/>))}
+                {/*{props.cards.map(card => (<Card key={card._id} onDeleteCard={props.onDeleteCard} onCardLike={props.onCardLike} onCardClick={props.onCardClick} card={card}/>))}*/}
+                {props.cards.map((card) => {
+                    return(
+                        <Card card={card} onCardClick={props.onCardClick} key={card._id} onCardLike = {props.onCardLike} onDeleteCard={props.onDeleteCard} />
+                    )
+                } )}
             </section>
         </main>
     )

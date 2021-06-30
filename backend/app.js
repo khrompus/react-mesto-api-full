@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 // eslint-disable-next-line import/no-unresolved
 const { celebrate, Joi } = require('celebrate');
 const cors = require('cors');
+const path = require('path');
 const { errors } = require('celebrate');
 // eslint-disable-next-line import/no-unresolved
 const cookieParser = require('cookie-parser');
@@ -15,6 +17,14 @@ const { requestLogger, errorLogger } = require('./middlewares/Logger');
 
 const { PORT = 3001 } = process.env;
 const app = express();
+// подключение бд к проетку
+
+mongoose.connect('mongodb://localhost:27017/mestodb', {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
 const settingCors = {
   origin: [
     'http://localhost:3000',
@@ -33,17 +43,10 @@ const settingCors = {
   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
 };
-app.use('*', cors({ settingCors }));
+app.use('*', cors(settingCors));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// подключение бд к проетку
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
 const validateUserSignUp = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -62,24 +65,18 @@ const validateSignIn = celebrate({
     password: Joi.string().required().min(8),
   }),
 });
-
 app.use(cookieParser());
 app.use(requestLogger);
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
 app.post('/signin', validateSignIn, login);
 app.post('/signup', validateUserSignUp, createUser);
-app.use(Auth);
-app.use(routesUser);
-app.use(routerCard);
+app.use(Auth, routesUser);
+app.use(Auth, routerCard);
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Такой страницы не существует' });
 });
 app.use(errorLogger);
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
@@ -91,5 +88,5 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('Сервер запущен');
+  console.log(`App listening on port ${PORT}`);
 });

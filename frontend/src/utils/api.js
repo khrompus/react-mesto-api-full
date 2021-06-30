@@ -1,6 +1,7 @@
 class Api {
     constructor({baseUrl}) {
         this._baseUrl = baseUrl;
+
     }
     _parseResponse(res) {
         if (res.ok) {
@@ -37,19 +38,21 @@ class Api {
     }
     getUser() {
         return fetch(`${this._baseUrl}/users/me`, {
+            method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                'Content-Type': 'application/json'
-            }
+                "Content-Type": "application/json",
+            },
         })
             .then(res => this._parseResponse(res));
     }
     getCards() {
         return fetch(`${this._baseUrl}/cards`, {
+            method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                'Content-Type': 'application/json'
-            }
+                "Content-Type": "application/json",
+            },
         })
             .then(res => this._parseResponse(res));
     }
@@ -81,26 +84,27 @@ class Api {
 
     likeCard(cardId) {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'PUT',
+            method: "PUT",
             headers: {
                 authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                'Content-Type': 'application/json'
-            }
+                "Content-Type": "application/json",
+            },
         })
             .then(res => this._parseResponse(res));
     }
     likeCardDelete(cardId) {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'DELETE',
+            method: "DELETE",
             headers: {
                 authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                'Content-Type': 'application/json'
-            }
+                "Content-Type": "application/json",
+            },
         })
             .then(res => this._parseResponse(res));
     }
 }
 const api = new Api({
-    baseUrl: 'https://api.khrompus.nomoredomains.club',
+    // baseUrl: 'https://api.khrompus.nomoredomains.club',
+    baseUrl: 'http://localhost:3001',
 })
 export default api

@@ -35,11 +35,6 @@ function App() {
         setSelectedCard(null);
         setIsInfoToolTipPopupOpen(false)
     }
-    useEffect(() => {
-        handleTokenCheck()
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
     const handleTokenCheck = () => {
         if (localStorage.getItem('jwt')) {
             const jwt = localStorage.getItem('jwt')
@@ -49,24 +44,27 @@ function App() {
                         setIsLoggedIn(true)
                         history.push('/')
                     }
-                    const email = res.data.email
+                    const email = res.email
                     setUserInfo({email})
-
                 }).catch((err) => {
                     console.log('Ошибка при проверки токена', err)
                 })
             }
-            }
+        }
 
     }
+    useEffect(() => {
+        handleTokenCheck()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const history = useHistory()
 
     function handleSignIn(loginData) {
-        auth.authorize(loginData).then((res) => {
+        return auth.authorize(loginData).then((res) => {
             setIsLoggedIn(true)
             history.push('/')
             localStorage.setItem('jwt', res.token);
-            console.log(localStorage)
             setUserInfo({
                 email: loginData.email
             })
@@ -106,7 +104,7 @@ function App() {
     }
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
 
         if (!isLiked) {
             api.likeCard(card._id).then((newCard) => {
@@ -129,9 +127,10 @@ function App() {
             .then(() => {
                 setCards((cards) => cards
                     .filter(item => item._id !== card._id))
-            }).catch((err) => {
-            console.log('Ошибка при удаление карточки', err)
-        })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     useEffect(() => {
@@ -143,7 +142,7 @@ function App() {
             .catch(err => {
                 console.log('Ошибка при получении данных', err)
             })
-    }, [])
+    })
     useEffect(() => {
         api.getCards()
             .then((res) => {
@@ -172,13 +171,11 @@ function App() {
         }).catch((err) => {
             console.log('Ошибка при загрузки данных', err)
         })
-
-
     }
 
     function handleAddPlaceSubmit(cardData) {
         api.sendCard(cardData).then((res) => {
-            setCards([res, ...cards])
+            setCards([res.data, ...cards])
             closeAllPopups()
         }).catch((err) => {
             console.log('Ошибка при загрузки карточки', err)
@@ -189,6 +186,7 @@ function App() {
         localStorage.removeItem('jwt')
         setIsLoggedIn(false)
     }
+
     return (
         <div className="app">
             <CurrentUserContext.Provider value={currentUser}>
@@ -208,8 +206,8 @@ function App() {
                         <Register onRegister={handleRegister}/>
                     </Route>
                     <ProtectedRoute
-                                    isLoggedIn={isLoggedIn}
-                                    path="/">
+                        isLoggedIn={isLoggedIn}
+                        path="/">
                         <Header redirect="/"
                                 isLoggedIn={isLoggedIn}
                                 text="Выйти"

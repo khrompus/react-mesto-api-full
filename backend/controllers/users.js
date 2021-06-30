@@ -1,4 +1,5 @@
 /* eslint-disable */
+const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
@@ -116,21 +117,17 @@ module.exports.updateAvatar = (req, res, next) => {
     });
 };
 module.exports.login = (req, res, next) => {
-  const {email, password} = req.body;
+  const { email, password } = req.body;
   return user.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({_id: user._id}, 'secret-key', {
-        expiresIn: '7d',
+      res.send({
+        token: jwt.sign(
+          { _id: user._id, email: user.email },
+          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+          // eslint-disable-next-line comma-dangle
+          { expiresIn: '7d' }
+        ),
       });
-      res
-        .cookie('jwt', token, {
-          httpOnly: true,
-          sameSite: 'None',
-          secure: true,
-          maxAge: 3600000 * 24 * 7,
-        })
-        .status(200)
-        .send({token});
     })
     .catch(next);
 };
