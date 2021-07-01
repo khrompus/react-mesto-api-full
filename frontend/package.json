@@ -1,6 +1,9 @@
 {
-  "name": "mesto-react",
-  "version": "0.1.0",
+  "name": "express-mesto",
+  "version": "1.0.0",
+  "description": "сервер для проекта mesto",
+  "main": "./app.js",
+  "author": "Rakhmaev Vladislav",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",

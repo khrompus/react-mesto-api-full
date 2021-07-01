@@ -4,3 +4,4 @@
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 frontend : https://khrompus.nomoredomains.monster/ 
 backend : https://api.khrompus.nomoredomains.club
+Публичный Ipv4 : 217.28.231.60

@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://api.khrompus.nomoredomains.club'
 
-// export const BASE_URL = 'http://localhost:3001' /dev
+// export const BASE_URL = 'http://localhost:3001' //dev
 
 function parseResponse(res) {
     if (res.ok) {

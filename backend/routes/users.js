@@ -28,7 +28,7 @@ router.get('/users/me', getUser);
 router.get('/users', getUsers);
 router.get('/users/:userId', validateId, celebrate({
   params: Joi.object().keys({
-    id: Joi.string().required().length(24).hex(),
+    userId: Joi.string().required().length(24).hex(),
   }),
 }), getUserId);
 router.patch('/users/me', validateUpdateProfile, updateUser);

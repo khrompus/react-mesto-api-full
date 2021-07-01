@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routesUser = require('./routes/users');
 const routerCard = require('./routes/cards');
+const errorRouter = require('./routes/error');
 const Auth = require('./middlewares/Auth');
 const { createUser, login } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/Logger');
@@ -68,14 +69,16 @@ const validateSignIn = celebrate({
 });
 app.use(cookieParser());
 app.use(requestLogger);
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post('/signin', validateSignIn, login);
 app.post('/signup', validateUserSignUp, createUser);
 app.use(Auth, routesUser);
 app.use(Auth, routerCard);
-
-app.use((req, res) => {
-  res.status(404).send({ message: 'Такой страницы не существует' });
-});
+app.use('/', errorRouter);
 app.use(errorLogger);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(errors());
