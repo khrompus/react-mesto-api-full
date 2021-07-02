@@ -32,18 +32,15 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.getUserId = (req, res, next) => {
-  const {userId} = req.params;
-  return user.findById(userId)
-    .then((user) => {
-      if (user) {
-        return res.status(200).send(user);
-      }
-      throw new NotFoundError('Пользователь по указанному _id не найден.');
-    })
+  user.findById(req.params.id)
+    .orFail(new Error('NotValidId'))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
+      if (err.message === 'NotValidId') {
+        next(new NotFoundError('Нет пользователя с таким id'));
+      }
       if (err.kind === 'ObjectId') {
-        const error = new BadRequestError('Переданы некорректные данные.');
-        next(error);
+        next(new BadRequestError('Переданы некорректный данные'));
       }
       next(err);
     });

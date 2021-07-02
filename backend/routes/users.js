@@ -26,11 +26,7 @@ const validateId = celebrate({
 
 router.get('/users/me', getUser);
 router.get('/users', getUsers);
-router.get('/users/:userId', validateId, celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().required().length(24).hex(),
-  }),
-}), getUserId);
+router.get('/users/:id', validateId, getUserId);
 router.patch('/users/me', validateUpdateProfile, updateUser);
 router.patch('/users/me/avatar', validateAvatar, updateAvatar);
 module.exports = router;
